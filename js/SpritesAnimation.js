@@ -1,7 +1,9 @@
 export class SpritesAnimation{
 
     constructor(spriteFolderPath, fileName, fileExtension, frameAmount, delay){
-        this.img = new Image();
+        this.img = new Array(frameAmount);
+        this.img_buffer = new Image();
+
         this.spriteFolderPath = spriteFolderPath;
         this.fileName = fileName;
         this.fileExtension = fileExtension;
@@ -10,6 +12,11 @@ export class SpritesAnimation{
         this.cont = 0;
         this.time = Date.now();
         this.isStopped = false;
+
+        for(let i=0;i<frameAmount;i++){
+            this.img[i] = new Image();
+            this.img[i].src =  this.spriteFolderPath + this.fileName + i + this.fileExtension;
+        }
     }
 
     getImageAnimation(){
@@ -18,13 +25,13 @@ export class SpritesAnimation{
                 this.cont = 0;
             }
             
-            this.img.src = this.spriteFolderPath + this.fileName + this.cont + this.fileExtension;
+            this.img_buffer = this.img[this.cont]; 
 
             if(Date.now() - this.time >= this.delay){
                 this.cont++;
                 this.time = Date.now();
             }
         }
-        return this.img;
+        return this.img_buffer;
     }
 }

@@ -126,7 +126,7 @@ function display(){
     ctx.fillStyle = "#FFFFFF"
     ctx.fillText(player.score, ctx.canvas.width / 2.0 - (24 * player.score.toString().length / 2.0), ctx.canvas.height * 0.15);
     ctx.font = "bold 14px arial";
-    ctx.fillText("Highscore: "+player.highscore, 4, 14);
+    ctx.fillText("Maior pontuação: "+player.highscore, 4, 14);
     ctx.fillStyle = "#000"; 
 
     if(player.isAlive){
@@ -159,8 +159,9 @@ function display(){
             player.position.y = ctx.canvas.height / 2.0;
             aspctRatioHasChange = true;
         }
-        ctx_screen.canvas.width = window.innerHeight * 0.45;
-        ctx_screen.canvas.height = window.innerHeight * 0.45 / aspctRatio;
+
+        ctx_screen.canvas.width = window.innerHeight * 0.50;
+        ctx_screen.canvas.height = window.innerHeight * 0.50 / aspctRatio;
     }
     
    
@@ -258,7 +259,7 @@ function init(){
     aspctRatioHasChange = false;
     flashOpacity = 0xFF;
     fps = 0;
-    player = new Player(player.id, new Vec(150,ctx.canvas.height/2.0), player.nickname, new Vec(30,30), player.highscore, player.timesPlayed);
+    player = new Player(player.id, new Vec(150, ctx.canvas.height/2.0), player.nickname, new Vec(30,30), player.highscore, player.timesPlayed);
     var y = ctx.canvas.height * 0.2 + Math.random() * (ctx.canvas.height * 0.6);
     obstacles.splice(0,0, new Obstacle(new Vec(ctx.canvas.width + 25, y),2, new Vec(50,50), 50));
 }
@@ -266,7 +267,7 @@ function init(){
 function main(){
     init();
 
-    var playersData = JSON.parse(get('http://3.82.160.1:5045/players'));
+    var playersData = JSON.parse(get('http://52.2.64.114:5045/players'));
 
     let i = 0;
     playersData.forEach(element => {
@@ -321,7 +322,7 @@ document.getElementsByTagName('body')[0].onclick = function(e) { // executa quan
             }
 
             let request = new XMLHttpRequest(); // faz o POST na API para atualizar o valor
-            request.open("POST", 'http://3.82.160.1:5045/timesPlayed', true);
+            request.open("POST", 'http://52.2.64.114:5045/timesPlayed', true);
             request.setRequestHeader("Content-type", "application/json");
             request.send(JSON.stringify(body));
 
@@ -330,7 +331,7 @@ document.getElementsByTagName('body')[0].onclick = function(e) { // executa quan
         isPlaying = true; // muda o estado do jogo para "Jogando"
         player.jump();    // pula;
     }else{
-        var playerData = JSON.parse(get('http://3.82.160.1:5045/players/id/'+player.id)); // recebe os dados do jogador da api
+        var playerData = JSON.parse(get('http://52.2.64.114:5045/players/id/'+player.id)); // recebe os dados do jogador da api
         if(player.score > playerData.score){ // verifica se os pontos atua são maiores que o do banco de dados
             player.highscore = player.score; // atualiza a pontuação maxima
 
@@ -340,7 +341,7 @@ document.getElementsByTagName('body')[0].onclick = function(e) { // executa quan
             }
     
             let request = new XMLHttpRequest(); // atualiza a pontuaçao maxima no bando de dados
-            request.open("POST", 'http://3.82.160.1:5045/score', true);
+            request.open("POST", 'http://52.2.64.114:5045/score', true);
             request.setRequestHeader("Content-type", "application/json");
             request.send(JSON.stringify(body));
         }
@@ -363,7 +364,7 @@ window.addEventListener('load', () => {
         window.location.assign("index.html");
     }
 
-    var playerData = JSON.parse(get('http://3.82.160.1:5045/players/id/'+id));
+    var playerData = JSON.parse(get('http://52.2.64.114:5045/players/id/'+id));
 
     player = new Player(playerData.id, new Vec(150, ctx.canvas.height/2.0), playerData.nickname, new Vec(30,30), playerData.score, playerData.timesPlayed);
 
