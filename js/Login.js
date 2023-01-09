@@ -1,6 +1,6 @@
 
 function play(){
-    const url = "http://localhost:5045/login";
+    const url = "http://3.82.160.1:5045/login";
     let nickname = document.getElementById("nickname").value;
     let password = document.getElementById("password").value;
     let label = document.getElementById("mensagem_de_erro");
@@ -37,7 +37,7 @@ function play(){
 }
 
 function register(){
-    const url = "http://localhost:5045/register";
+    const url = "http://3.82.160.1:5045/register";
     let nickname = document.getElementById("nickname").value;
     let password = document.getElementById("password").value;
     let label = document.getElementById("mensagem_de_erro");
@@ -74,7 +74,7 @@ function register(){
 }
 
 function join(nickname){
-    var playerData = JSON.parse(get('http://localhost:5045/players/nickname/'+nickname));
+    var playerData = JSON.parse(get('http://3.82.160.1:5045/players/nickname/'+nickname));
     localStorage.setItem("id="+playerData.id+" is logged", true);
     window.location.assign("display.html?id="+playerData.id);
 }
